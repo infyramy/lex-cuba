@@ -1,37 +1,13 @@
 # ============================================================================
 # CORRAD Laravel CMS — Docker Compose (Dokploy / Bare Ubuntu / Any Docker Host)
 # ============================================================================
-#
-# One repo → one `docker compose up` → everything running.
-#
-# Services:
-#   db        — PostgreSQL 16 (data persisted in volume)
-#   api       — Laravel PHP-FPM (backend logic)
-#   api-web   — Nginx reverse proxy for PHP-FPM (serves /api/* and /storage/*)
-#   admin     — Vue 3 SPA served by Nginx (admin panel)
-#   queue     — Laravel queue worker (background jobs)
-#   scheduler — Laravel task scheduler (cron replacement)
-#
-# Ports (configurable via .env):
-#   API:   ${API_PORT:-8080}
-#   Admin: ${ADMIN_PORT:-8081}
-#   DB:    5432 (internal only, not exposed by default)
-#
-# ============================================================================
-# Quick Start:
-#   1. cp .env.production.example .env
-#   2. Edit .env (set DB_PASSWORD, APP_URL, VITE_API_BASE_URL, domains)
-#   3. docker compose up -d --build
-#   4. Wait ~30s for auto-migration and seeding
-#   5. Open http://localhost:8081 → admin panel
-#   6. Login: admin@example.com / admin12345 (change immediately!)
-# ============================================================================
 
 services:
   # ── PostgreSQL 16 ──────────────────────────────────────────────────────────
   db:
     image: postgres:16-alpine
     restart: unless-stopped
+    networks: [appnet]
     environment:
       POSTGRES_DB: ${DB_DATABASE:-corrad}
       POSTGRES_USER: ${DB_USERNAME:-corrad}
@@ -50,6 +26,7 @@ services:
       context: .
       target: api
     restart: unless-stopped
+    networks: [appnet]
     depends_on:
       db:
         condition: service_healthy
@@ -65,6 +42,7 @@ services:
   api-web:
     image: nginx:1.27-alpine
     restart: unless-stopped
+    networks: [appnet]
     depends_on: [api]
     volumes:
       - ./docker/nginx/api.conf:/etc/nginx/conf.d/default.conf:ro
@@ -79,8 +57,9 @@ services:
       context: .
       target: admin
       args:
-        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-}
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-https://lex-api.0w0.my}
     restart: unless-stopped
+    networks: [appnet]
     ports:
       - "${ADMIN_PORT:-8081}:80"
 
@@ -90,6 +69,7 @@ services:
       context: .
       target: api
     restart: unless-stopped
+    networks: [appnet]
     depends_on:
       db:
         condition: service_healthy
@@ -108,6 +88,7 @@ services:
       context: .
       target: api
     restart: unless-stopped
+    networks: [appnet]
     depends_on:
       db:
         condition: service_healthy
@@ -117,6 +98,10 @@ services:
       DB_HOST: db
       DB_PORT: 5432
     command: ["sh", "-c", "while true; do php artisan schedule:run --no-interaction; sleep 60; done"]
+
+networks:
+  appnet:
+    driver: bridge
 
 volumes:
   pgdata:
