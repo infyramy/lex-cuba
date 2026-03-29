@@ -17,42 +17,36 @@ class MemberSeeder extends Seeder
         $basic = Package::updateOrCreate(
             ['name' => 'Basic'],
             [
-                'description'           => 'Access to notes and case summaries for self-study.',
-                'price'                 => 29.00,
-                'duration_months'       => 1,
-                'notes_access'          => true,
-                'case_summaries_access' => true,
-                'question_bank_access'  => false,
-                'chatbot_access'        => false,
-                'is_active'             => true,
+                'description'              => 'Access to notes and case summaries for self-study.',
+                'price'                    => 29.00,
+                'duration_months'          => 1,
+                'chatbot_access'           => false,
+                'accessible_category_ids'  => null,
+                'is_active'                => true,
             ]
         );
 
         $pro = Package::updateOrCreate(
             ['name' => 'Pro'],
             [
-                'description'           => 'Full access to all modules including question bank and AI chatbot.',
-                'price'                 => 59.00,
-                'duration_months'       => 3,
-                'notes_access'          => true,
-                'case_summaries_access' => true,
-                'question_bank_access'  => true,
-                'chatbot_access'        => true,
-                'is_active'             => true,
+                'description'              => 'Full access to all modules including question bank and AI chatbot.',
+                'price'                    => 59.00,
+                'duration_months'          => 3,
+                'chatbot_access'           => true,
+                'accessible_category_ids'  => null,
+                'is_active'                => true,
             ]
         );
 
         Package::updateOrCreate(
             ['name' => 'Annual'],
             [
-                'description'           => 'Best value — 12 months of full Pro access.',
-                'price'                 => 179.00,
-                'duration_months'       => 12,
-                'notes_access'          => true,
-                'case_summaries_access' => true,
-                'question_bank_access'  => true,
-                'chatbot_access'        => true,
-                'is_active'             => true,
+                'description'              => 'Best value — 12 months of full Pro access.',
+                'price'                    => 179.00,
+                'duration_months'          => 12,
+                'chatbot_access'           => true,
+                'accessible_category_ids'  => null,
+                'is_active'                => true,
             ]
         );
 
