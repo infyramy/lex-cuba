@@ -28,7 +28,8 @@ fi
 # Create storage symlink
 php artisan storage:link 2>/dev/null || true
 
-# Cache for performance
+# Clear any stale cache then rebuild
+php artisan config:clear
 php artisan config:cache
 php artisan route:cache
 

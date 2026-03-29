@@ -35,6 +35,10 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
+      FRONTEND_URL: ${FRONTEND_URL:-https://lex-admin.0w0.my}
+      APP_URL: ${APP_URL:-https://lex-api.0w0.my}
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-lex-admin.0w0.my,lex-api.0w0.my}
+      SESSION_DOMAIN: ${SESSION_DOMAIN:-.0w0.my}
     volumes:
       - app-storage:/var/www/storage/app/public
 
@@ -78,6 +82,8 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
+      FRONTEND_URL: ${FRONTEND_URL:-https://lex-admin.0w0.my}
+      APP_URL: ${APP_URL:-https://lex-api.0w0.my}
     command: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3", "--max-time=3600"]
     volumes:
       - app-storage:/var/www/storage/app/public
@@ -97,6 +103,8 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
+      FRONTEND_URL: ${FRONTEND_URL:-https://lex-admin.0w0.my}
+      APP_URL: ${APP_URL:-https://lex-api.0w0.my}
     command: ["sh", "-c", "while true; do php artisan schedule:run --no-interaction; sleep 60; done"]
 
 networks:
