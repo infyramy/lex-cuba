@@ -10,7 +10,7 @@
 FROM node:20-alpine AS frontend-builder
 
 # API URL must be set at build time — it's baked into the JS bundle
-ARG VITE_API_BASE_URL=""
+ARG VITE_API_BASE_URL="https://lex-api.0w0.my"
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 
 WORKDIR /build

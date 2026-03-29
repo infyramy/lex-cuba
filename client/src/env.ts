@@ -1,2 +1,2 @@
-// Use ?? so an explicitly empty VITE_API_BASE_URL="" (Vite proxy mode) is respected
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000";
+// Use || so empty string also falls back (empty = not configured)
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://lex-api.0w0.my";
