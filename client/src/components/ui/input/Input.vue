@@ -1,0 +1,31 @@
+<script setup lang="ts">
+import { type HTMLAttributes, computed } from "vue";
+import { cn } from "@/lib/utils";
+
+const props = defineProps<{
+  defaultValue?: string | number;
+  modelValue?: string | number;
+  class?: HTMLAttributes["class"];
+}>();
+
+const emits = defineEmits<{
+  "update:modelValue": [value: string | number];
+}>();
+
+const modelValue = computed({
+  get: () => props.modelValue,
+  set: (val) => emits("update:modelValue", val as string | number),
+});
+</script>
+
+<template>
+  <input
+    v-model="modelValue"
+    :class="
+      cn(
+        'flex h-11 w-full rounded-lg border border-input bg-background px-3.5 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        props.class
+      )
+    "
+  />
+</template>

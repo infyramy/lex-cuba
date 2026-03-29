@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Laravel API Server",
+      "runtimeExecutable": "/opt/homebrew/bin/php",
+      "runtimeArgs": ["artisan", "serve", "--host=127.0.0.1", "--port=8000"],
+      "port": 8000
+    },
+    {
+      "name": "Vue Dev Server (Client)",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "client", "run", "dev"],
+      "port": 5180
+    },
+    {
+      "name": "Queue Worker",
+      "runtimeExecutable": "/opt/homebrew/bin/php",
+      "runtimeArgs": ["artisan", "queue:listen", "--tries=1", "--timeout=0"],
+      "port": 0
+    }
+  ]
+}

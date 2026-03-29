@@ -1,0 +1,29 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/protect-config.sh",
+            "timeout": 10,
+            "statusMessage": "Checking config protection..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/cost-tracker.sh",
+            "timeout": 10,
+            "statusMessage": "Logging session..."
+          }
+        ]
+      }
+    ]
+  }
+}

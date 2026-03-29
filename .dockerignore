@@ -1,0 +1,15 @@
+node_modules
+client/node_modules
+client/dist
+vendor
+.git
+.env
+.env.local
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+tests
+.claude
+*.md
+!DEPLOYMENT.md
