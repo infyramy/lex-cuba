@@ -1,6 +1,7 @@
 <?php
 
 $frontendOrigins = array_values(array_unique(array_filter([
+    'https://lex-admin.0w0.my',
     env('FRONTEND_URL'),
     'http://localhost:5180',
     'http://127.0.0.1:5180',
