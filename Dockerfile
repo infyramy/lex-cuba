@@ -20,7 +20,7 @@ COPY client/ ./
 RUN npm run build
 
 # ── Stage 2: Laravel API (PHP-FPM) ──────────────────────────────────────────
-FROM php:8.3-fpm-alpine AS api
+FROM php:8.4-fpm-alpine AS api
 
 RUN apk add --no-cache \
     postgresql-dev \
