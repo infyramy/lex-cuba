@@ -11,6 +11,7 @@ import {
   Library,
   Scale,
   Settings,
+  Terminal,
   Users,
   UserCheck,
   Wallet,
@@ -88,6 +89,15 @@ export const DEFAULT_MENU: MenuGroupDef[] = [
       { id: "admin-users", label: "Admin Users",      to: "/admin/users",        icon: Users },
       { id: "settings",    label: "Settings",          to: "/admin/settings",     icon: Settings },
       { id: "api-docs",    label: "API Reference",     to: "/admin/api-reference", icon: BookOpen },
+    ],
+  },
+
+  // ── Developer (remove before final production) ─────────────────
+  {
+    id: "developer",
+    label: "Developer",
+    items: [
+      { id: "dev-console", label: "Dev Console", to: "/admin/dev", icon: Terminal },
     ],
   },
 ];

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuditLogController;
+use App\Http\Controllers\Api\DevConsoleController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CaseSummaryController;
 use App\Http\Controllers\Api\CategoryController;
@@ -152,6 +153,16 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
 
     // ── Audit Logs ───────────────────────────────────────────────────────────
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->middleware('permission:audit.read');
+});
+
+// ── Dev Console (remove before final production) ─────────────────────────────
+Route::prefix('dev')->middleware(['auth:sanctum', 'throttle:api'])->group(function () {
+    Route::get('info',                 [DevConsoleController::class, 'info']);
+    Route::get('tables',               [DevConsoleController::class, 'tables']);
+    Route::get('tables/{table}',       [DevConsoleController::class, 'tableRows']);
+    Route::post('tables/{table}',      [DevConsoleController::class, 'createRow']);
+    Route::put('tables/{table}/{id}',  [DevConsoleController::class, 'updateRow']);
+    Route::delete('tables/{table}/{id}', [DevConsoleController::class, 'deleteRow']);
 });
 
 // ── Mobile API (token-based auth) ────────────────────────────────────────────

@@ -94,6 +94,9 @@ const router = createRouter({
     // Media (accessible but not in sidebar)
     { path: "/admin/media", name: "media", component: MediaLibraryView, meta: { requiresAuth: true, title: "Media Library" } },
 
+    // Dev Console (remove before final production)
+    { path: "/admin/dev", name: "dev-console", component: () => import("@/views/DevConsoleView.vue"), meta: { requiresAuth: true, title: "⚠️ Dev Console" } },
+
     // Catch-all redirect to dashboard
     { path: "/:pathMatch(.*)*", redirect: "/admin" },
   ],

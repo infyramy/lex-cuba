@@ -395,3 +395,29 @@ export async function updateChatbotSettings(input: Record<string, unknown>) {
 export async function listAuditLogs(params = "") {
   return apiRequest<{ data: AuditLog[]; meta: Record<string, unknown> }>(`/api/audit-logs${params}`);
 }
+
+// ─── Dev Console (remove before production) ──────────────────────────────────
+
+export async function devInfo() {
+  return apiRequest<{ data: Record<string, unknown> }>("/api/dev/info");
+}
+
+export async function devTables() {
+  return apiRequest<{ data: { table: string; count: number }[] }>("/api/dev/tables");
+}
+
+export async function devTableRows(table: string, params = "") {
+  return apiRequest<{ data: unknown[]; meta: Record<string, unknown> }>(`/api/dev/tables/${table}${params}`);
+}
+
+export async function devCreateRow(table: string, data: Record<string, unknown>) {
+  return apiRequest<{ data: unknown }>(`/api/dev/tables/${table}`, { method: "POST", body: JSON.stringify(data) });
+}
+
+export async function devUpdateRow(table: string, id: number, data: Record<string, unknown>) {
+  return apiRequest<{ data: unknown }>(`/api/dev/tables/${table}/${id}`, { method: "PUT", body: JSON.stringify(data) });
+}
+
+export async function devDeleteRow(table: string, id: number) {
+  return apiRequest<{ data: { success: boolean } }>(`/api/dev/tables/${table}/${id}`, { method: "DELETE" });
+}
