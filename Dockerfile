@@ -56,7 +56,13 @@ EXPOSE 9000
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]
 
-# ── Stage 3: Admin SPA (Nginx) ──────────────────────────────────────────────
+# ── Stage 3: API Nginx (reverse proxy for PHP-FPM) ──────────────────────────
+FROM nginx:1.27-alpine AS api-web
+COPY docker/nginx/api.conf /etc/nginx/conf.d/default.conf
+COPY public /var/www/public
+EXPOSE 80
+
+# ── Stage 4: Admin SPA (Nginx) ──────────────────────────────────────────────
 FROM nginx:1.27-alpine AS admin
 COPY --from=frontend-builder /build/dist /usr/share/nginx/html
 COPY docker/nginx/admin.conf /etc/nginx/conf.d/default.conf
