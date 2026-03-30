@@ -39,6 +39,8 @@ services:
       APP_URL: ${APP_URL:-https://lex-api.0w0.my}
       SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-lex-admin.0w0.my,lex-api.0w0.my}
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.0w0.my}
+      ADMIN_EMAIL: admin@abc.com
+      ADMIN_PASSWORD: abc123
     volumes:
       - app-storage:/var/www/storage/app/public
     ports:
