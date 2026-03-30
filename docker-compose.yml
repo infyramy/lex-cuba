@@ -20,7 +20,7 @@ services:
       timeout: 3s
       retries: 15
 
-  # ── Laravel API (PHP-FPM) ──────────────────────────────────────────────────
+  # ── API: nginx + php-fpm in one container (no cross-container networking) ──
   api:
     build:
       context: .
@@ -41,17 +41,6 @@ services:
       SESSION_DOMAIN: ${SESSION_DOMAIN:-.0w0.my}
     volumes:
       - app-storage:/var/www/storage/app/public
-
-  # ── Nginx for API (serves Laravel via FastCGI) ─────────────────────────────
-  api-web:
-    build:
-      context: .
-      target: api-web
-    restart: unless-stopped
-    networks: [appnet]
-    depends_on: [api]
-    volumes:
-      - app-storage:/var/www/storage/app/public:ro
     ports:
       - "${API_PORT:-8080}:80"
 
@@ -67,7 +56,7 @@ services:
     ports:
       - "${ADMIN_PORT:-8081}:80"
 
-  # ── Queue Worker (background jobs) ─────────────────────────────────────────
+  # ── Queue Worker ───────────────────────────────────────────────────────────
   queue:
     build:
       context: .
@@ -82,13 +71,11 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
-      FRONTEND_URL: ${FRONTEND_URL:-https://lex-admin.0w0.my}
-      APP_URL: ${APP_URL:-https://lex-api.0w0.my}
     command: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3", "--max-time=3600"]
     volumes:
       - app-storage:/var/www/storage/app/public
 
-  # ── Scheduler (cron replacement) ───────────────────────────────────────────
+  # ── Scheduler ─────────────────────────────────────────────────────────────
   scheduler:
     build:
       context: .
@@ -103,8 +90,6 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: db
       DB_PORT: 5432
-      FRONTEND_URL: ${FRONTEND_URL:-https://lex-admin.0w0.my}
-      APP_URL: ${APP_URL:-https://lex-api.0w0.my}
     command: ["sh", "-c", "while true; do php artisan schedule:run --no-interaction; sleep 60; done"]
 
 networks:
