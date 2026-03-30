@@ -11,8 +11,8 @@ const router = useRouter();
 const auth = useAuthStore();
 const site = useSiteStore();
 
-const email = ref("admin@example.com");
-const password = ref("admin12345");
+const email = ref("");
+const password = ref("");
 const error = ref("");
 const showPassword = ref(false);
 
