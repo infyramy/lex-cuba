@@ -36,6 +36,9 @@ return Application::configure(basePath: dirname(__DIR__))
         });
     })
     ->withMiddleware(function (Middleware $middleware): void {
+        // Remove Laravel CORS middleware — nginx handles CORS headers instead
+        $middleware->remove(\Illuminate\Http\Middleware\HandleCors::class);
+
         $middleware->redirectGuestsTo(function (Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
                 return null;
